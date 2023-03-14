@@ -14,12 +14,6 @@
       <link href="libs/css/style.css" rel="stylesheet" type="text/css">
       <link href="img/favicon.ico" rel="icon">
       <title>Company Directory</title>
-      <style type="text/css">
-        .highlight {
-  /*background: red;*/
-  box-shadow: 0 0 0 0.25rem rgba(66,70,73,.5);
-}
-      </style>
   </head>
 
   <body class="overflow-hidden">
@@ -30,32 +24,23 @@
         <div class="col-12 d-flex p-0">
 
           <div class="d-flex pageTitleDiv">
-              <a href="" class="my-auto mx-auto pageTitle"  >Company Directory</a>
+              <a class="my-auto mx-auto pageTitle"  href="index.html">Company Directory</a>
           </div>
 
           <div class="d-flex align-items-center justify-content-end" id="navTools">
 
             <ul class="navbar-nav mx-4 ">
-
-                  <button class="btn btn-dark"  href="#" id="first" onclick="nav('per');">Personnel</button>
-                 
-              
+              <li class="nav-item dropdown ">
+                <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
+                  Departments
+                </button>
+                <!-- <ul class="dropdown-menu" aria-labelledby="dropdownMenuNav">
+                  <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#locationModal">Locations</button></li>
+                  <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#departmentModal">Departments</button></li>
+                </ul> -->
+              </li>  
             </ul>
-
-            <ul class="navbar-nav mx-4 ">
-
-                  <button class="btn btn-dark"  href="#" id="second" onclick="nav('dep');">Departments</button>
-                 
-              
-            </ul>
-
-            <ul class="navbar-nav mx-4 ">
-
-                  <button class="btn btn-dark" id="third"  href="#" onclick="nav('loc');">Locations</button>
-                 
-              
-            </ul>
-  <!-- 
+  
             <ul class="navbar-nav mx-4 ">
               <li class="nav-item dropdown ">
                 <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
@@ -66,13 +51,11 @@
                   <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#departmentModal">Departments</button></li>
                 </ul>
               </li>  
-            </ul> -->
+            </ul>
           </div>
         </div>
       </div>
     </div>
-
-    
  
     
 
@@ -100,9 +83,7 @@
               </div>
               <div class="d-flex mx-4 ms-lg-auto">
                 <button class="btn btn-secondary" id="reset"><i class="bi bi-bootstrap-reboot"></i></button>
-                <button style="display: block;" class="btn btn-success btn-lg" id="bt" type="button" data-bs-toggle="modal" data-bs-target="#insertNewPerson"><i class="bi bi-plus-square-fill"></i></button>
-                <button style="display: none;" class="btn btn-success btn-lg" id="bt1" type="button" data-bs-toggle="modal" data-bs-target="#departmentModal"><i class="bi bi-plus-square-fill"></i></button>
-                <button style="display: none;" class="btn btn-success btn-lg" id="bt2" type="button" data-bs-toggle="modal" data-bs-target="#locationModal"><i class="bi bi-plus-square-fill"></i></button>
+                <button class="btn btn-success btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#insertNewPerson"><i class="bi bi-person"></i></button>
               </div>
             </div>
 
@@ -115,58 +96,7 @@
     </div>
 
 
-    <div class="p-0 w-100 overflow-auto" id="tableDiv" style="display: block;">
-      
-      <table class="table table-secondary table-striped table-hover table-bordered align-middle m-0">
-
-        <thead>
-
-          <tr>
-            <th><div class="d-flex">Name</div></th>
-            <th><div class="d-flex">Departmnet</i></div></th>
-            <th><div class="d-flex">Location</i></div></th>
-            <th><div class="d-flex">Email</i></div></th>
-            <th class="text-center">Edit</th>
-          </tr>
-          
-        </thead>
-
-        <tbody id="tableBody">
-          
-    
-        </tbody>
-
-      </table>
-
-    </div>
-  
-
-  <div class="p-0 w-100 overflow-auto" id="tableDiv1" style="display: none;">
-      
-      <table class="table table-secondary table-striped table-hover table-bordered align-middle m-0">
-
-        <thead>
-
-          <tr>
-            <!-- <th><div class="d-flex">id</div></th> -->
-            <th><div class="d-flex">Departmnet</i></div></th>
-            <th><div class="d-flex">Location</i></div></th>
-            <!-- <th><div class="d-flex">Email</i></div></th> -->
-            <th class="text-center">Edit</th>
-          </tr>
-          
-        </thead>
-
-        <tbody id="tableBodydep">
-          
-    
-        </tbody>
-
-      </table>
-
-    </div>
-
-    <div class="p-0 w-100 overflow-auto" id="tableDiv2" style="display: none;">
+    <div class="p-0 w-100 overflow-auto" id="tableDiv">
       
       <table class="table table-secondary table-striped table-hover table-bordered align-middle m-0">
 
@@ -191,6 +121,7 @@
       </table>
 
     </div>
+  
      
 
 
@@ -408,96 +339,6 @@
 
     <!--edit existing person modal-->
 
-    <div class="modal fade" id="updatePerson" tabindex="-1" aria-labelledby="#updatePersonLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title headerForModal" id="updatePersonLabel">Change details</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-
-            <form id="editPerson">
-              <div class="input-group mb-3">
-                <span class="input-group-text">First Name</span>
-                <input type="text" class="form-control" name="firstName" pattern="[a-zA-Z\s]+" title="Only letters" required  />
-              </div>
-              <div class="input-group mb-3">
-                <span class="input-group-text">Last Name</span>
-                <input type="text" class="form-control" name="lastName" pattern="[a-zA-Z\s]+" title="Only letters" required />
-              </div>
-              <div class="input-group mb-3">
-                <span class="input-group-text">Job Title</span>
-                <input type="text" class="form-control" name="jobTitle" pattern="[a-zA-Z\s]+" title="Only letters"  placeholder="optional" />
-              </div>
-              <div class="input-group mb-3">
-                <span class="input-group-text">Email</span>
-                <input type="email" class="form-control" name="email" required/>
-              </div>
-              <div class="input-group mb-3">
-                <label class="input-group-text">Departments</label>
-                <select class="form-select deparments" name="departmentID" required></select>
-              </div>
-            </form>  
-            
-          </div>
-          <div class="modal-footer">
-            
-            <button type="button" class="btn btn-secondary btn-sm modalFooterBtn" data-bs-dismiss="modal"><i class="bi bi-x-circle modalFooterIcon"></i></button>
-            
-            <button type="submit" class="btn btn-success btn-sm modalFooterBtn" form="editPerson"><i class="bi bi-check-circle modalFooterIcon"></i></button>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-     <div class="modal fade" id="updatedep" tabindex="-1" aria-labelledby="#updatePersonLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title headerForModal" id="updatePersonLabel">Change details</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-
-            <form id="editdep">
-              <div class="input-group mb-3">
-                <span class="input-group-text">Department Name</span>
-                <input type="text" class="form-control" name="name" pattern="[a-zA-Z\s]+" title="Only letters" required  />
-              </div>
-              <!-- <div class="input-group mb-3">
-                <span class="input-group-text">Last Name</span>
-                <input type="text" class="form-control" name="lastName" pattern="[a-zA-Z\s]+" title="Only letters" required />
-              </div>
-              <div class="input-group mb-3">
-                <span class="input-group-text">Job Title</span>
-                <input type="text" class="form-control" name="jobTitle" pattern="[a-zA-Z\s]+" title="Only letters"  placeholder="optional" />
-              </div>
-              <div class="input-group mb-3">
-                <span class="input-group-text">Email</span>
-                <input type="email" class="form-control" name="email" required/>
-              </div> -->
-              <div class="input-group mb-3">
-                <label class="input-group-text">Location</label>
-                <select class="form-select locations" name="locationID" required></select>
-              </div>
-            </form>  
-            
-          </div>
-          <div class="modal-footer">
-            
-            <button type="button" class="btn btn-secondary btn-sm modalFooterBtn" data-bs-dismiss="modal"><i class="bi bi-x-circle modalFooterIcon"></i></button>
-            
-            <button type="submit" class="btn btn-success btn-sm modalFooterBtn" form="editdep"><i class="bi bi-check-circle modalFooterIcon"></i></button>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-
     <div class="modal fade" id="updateloc" tabindex="-1" aria-labelledby="#updatePersonLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -557,31 +398,6 @@
       <script src="vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
       <script src="vendors/bootbox/bootbox.min.js"></script>
       <script src="libs/js/script.js"></script>
-
-      <script type="text/javascript">
-        let firstBtn = document.getElementById('first');
-        let secondBtn = document.getElementById('second');
-        let thirddBtn = document.getElementById('third');
-
-        firstBtn.addEventListener('click', () => {
-        firstBtn.classList.add('highlight');
-        secondBtn.classList.remove('highlight');
-        thirddBtn.classList.remove('highlight');
-        });
-
-        secondBtn.addEventListener('click', () => {
-        secondBtn.classList.add('highlight');
-        firstBtn.classList.remove('highlight');
-        thirddBtn.classList.remove('highlight');
-        });
-
-        thirddBtn.addEventListener('click', () => {
-        thirddBtn.classList.add('highlight');
-        firstBtn.classList.remove('highlight');
-        secondBtn.classList.remove('highlight');
-
-        });
-      </script>
 
   </body>
 
