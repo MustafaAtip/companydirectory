@@ -252,10 +252,13 @@ $('#addPerson').submit(function (e) {
 //update and delete person
 
 $(document).on("click",".updatePer", function(){
+    // alert('testing');
     
     var perDepId = $(this).next().next().next().val();
+    // alert(perDepId);
 
     globalThis.personIdtoUpdate = $(this).next().next().val();
+    globalThis.person = $(this).next().next().next().val();
     
     $('#editPerson select').val(perDepId).trigger('change');
 
@@ -307,10 +310,12 @@ $(document).on("click",".deletePerson", function (e) {
     e.preventDefault();
 
     var personIdtoDelete = $(this).next().val();
+    var uname = $(this).next().next().val();
+    // alert(uname);
 
     bootbox.confirm({
         title: "Action Required",
-        message: "<strong>Do you want to delete this person\'s details?</strong>",
+        message: "Do you want to delete <strong>"+ uname +"</strong> details?",
         buttons: {
             confirm: {
                 label: 'Yes',
@@ -343,13 +348,49 @@ $(document).on("click",".deletePerson", function (e) {
 
 $(document).on("click",".deletedep", function (e) {
 
-// alert('test1'); return false;   
+// alert('test1'); return false; 
+var dep = $(this).next().next().val();
+    // alert(personIdtoDelete);  
 
     e.preventDefault();
 
     var personIdtoDelete = $(this).next().val();
+// alert(personIdtoDelete);
 
+
+            $.ajax({
+                    type: 'post',
+                    url: 'libs/php/delete/deleteDepartmentByID.php',
+                    data: {id: personIdtoDelete},
+                    success: function (result) {
+                        var res = result.status.code;
+                        var total = result.status.count;
+                        // alert(res);
+                        if (res == '400') {
+
+                             e.preventDefault();
+    
     bootbox.confirm({
+        title: "Action Required",
+        message: "You cannot remove the entry for <strong>"+dep+"</strong> because it has <strong>"+total+"</strong> employees assigned to it.",
+        buttons: {
+            
+    },
+        callback: function (result) {
+            
+            if (result) {
+    
+                // e.preventDefault();
+            
+                getAllDep();
+            }    
+        }
+    });
+                            // alert('Error! Cannot delete department with dependants.');
+        }else{ 
+            // alert("test");
+
+                            bootbox.confirm({
         title: "Action Required",
         message: "<strong>Do you want to delete this Department\'s details?</strong>",
         buttons: {
@@ -368,13 +409,17 @@ $(document).on("click",".deletedep", function (e) {
         
                 $.ajax({
                     type: 'post',
-                    url: 'libs/php/delete/deleteDepartmentByID.php',
+                    url: 'libs/php/delete/deleteDepartmentByIDv.php',
                     data: {id: personIdtoDelete},
                     success: function (result) {
                         var res = result.status.code;
                         // alert(res);
                         if (res == '400') {
-                            alert('Error! Cannot delete department with dependants.');
+
+                             e.preventDefault();
+    
+   
+                            // alert('Error! Cannot delete department with dependants.');
                         }
                         
                        getAllDep();
@@ -384,19 +429,64 @@ $(document).on("click",".deletedep", function (e) {
         }
     });
 
+ } //end else
+                        
+                       getAllDep();
+   } //end success
+                });
+ 
+
     return false;
 
 });
 
 $(document).on("click",".deleteloc", function (e) {
 
-// alert('test1'); return false;   
+
+    // alert('test1'); return false; 
+var loc = $(this).next().next().val();
+    // alert(loc);  
 
     e.preventDefault();
 
     var personIdtoDelete = $(this).next().val();
+// alert(personIdtoDelete);
 
+
+            $.ajax({
+                    type: 'post',
+                    url: 'libs/php/delete/deleteLocationbyID.php',
+                    data: {id: personIdtoDelete},
+                    success: function (result) {
+                        var res = result.status.code;
+                        var total = result.status.count;
+                        // alert(total);
+                        // alert(total);
+                        if (res == '400') {
+
+                             e.preventDefault();
+    
     bootbox.confirm({
+        title: "Action Required",
+        message: "You cannot remove the entry for <strong>"+loc+"</strong> because it has <strong>"+total+"</strong> employees assigned to it.",
+        buttons: {
+            
+    },
+        callback: function (result) {
+            
+            if (result) {
+    
+                // e.preventDefault();
+            
+                getAllLoc();
+            }    
+        }
+    });
+                            // alert('Error! Cannot delete department with dependants.');
+        }else{ 
+            // alert("test");
+
+                            bootbox.confirm({
         title: "Action Required",
         message: "<strong>Do you want to delete this Location?</strong>",
         buttons: {
@@ -415,14 +505,19 @@ $(document).on("click",".deleteloc", function (e) {
         
                 $.ajax({
                     type: 'post',
-                    url: 'libs/php/delete/deleteLocationbyID.php',
+                    url: 'libs/php/delete/deleteLocationbyIDv.php',
                     data: {id: personIdtoDelete},
                     success: function (result) {
                         var res = result.status.code;
                         // alert(res);
                         if (res == '400') {
-                            alert('Error! Cannot delete department with dependants.');
+
+                             e.preventDefault();
+    
+   
+                            // alert('Error! Cannot delete department with dependants.');
                         }
+                        
                        getAllLoc();
                     }
                 });
@@ -430,7 +525,80 @@ $(document).on("click",".deleteloc", function (e) {
         }
     });
 
+ } //end else
+                        
+                       getAllLoc();
+   } //end success
+                });
+ 
+
     return false;
+
+// alert('test1'); return false;   
+
+    // e.preventDefault();
+
+    // var personIdtoDelete = $(this).next().val();
+
+    // bootbox.confirm({
+    //     title: "Action Required",
+    //     message: "<strong>Do you want to delete this Location?</strong>",
+    //     buttons: {
+    //         confirm: {
+    //             label: 'Yes',
+    //             className: 'btn-success'
+    //         },
+    //         cancel: {
+    //             label: 'No',
+    //             className: 'btn-danger'
+    //         }
+    // },
+    //     callback: function (result) {
+            
+    //         if (result) {
+        
+    //             $.ajax({
+    //                 type: 'post',
+    //                 url: 'libs/php/delete/deleteLocationbyID.php',
+    //                 data: {id: personIdtoDelete},
+    //                 success: function (result) {
+    //                     var res = result.status.code;
+    //                     // alert(res);
+    //                     if (res == '400') {
+    //                          e.preventDefault();
+    
+    // bootbox.confirm({
+    //     title: "Action Required",
+    //     message: "<strong>Error! Cannot delete Location with dependants.</strong>",
+    //     buttons: {
+            
+    // },
+    //     callback: function (result) {
+            
+    //         if (result) {
+    
+    //             // e.preventDefault();
+            
+    //             getAllLoc();
+    //         }    
+    //     }
+    // });
+
+    // // return false;
+
+
+
+
+    //                         // alert('Error! Cannot delete department with dependants.');
+    //                     }
+    //                    getAllLoc();
+    //                 }
+    //             });
+    //         }            
+    //     }
+    // });
+
+    // return false;
 
 });
 
@@ -469,9 +637,13 @@ $('#editPerson').submit(function (e) {
 
     e.preventDefault();
     
+//     var uname = $(this).next().val();
+//     alert(person
+// );  
+
     bootbox.confirm({
         title: "Action Required",
-        message: "<strong>Do you want to update the staff details?</strong>",
+        message: "<strong>Do you want to update "+ person +" details?</strong>",
         buttons: {
             confirm: {
                 label: 'Yes',
@@ -631,8 +803,8 @@ $('#insertDepartment').submit(function (e) {
                     url: window.location.href + 'libs/php/insert/insertDepartment.php',
                     data: $('#insertDepartment').serialize(),
                     success: function (result) {
-                        
-                        getAllDepartments();
+                        $('#departmentModal').modal("toggle");
+                        getAllDep();
                         $('#insertDepartment')[0].reset();
                     }
                 });
@@ -758,9 +930,9 @@ $('#editDepartment').submit(function (e) {
                     data: $('#editDepartment').serialize(),
                     success: function (result) {
                         
-                        getAllDepartments();
+                        $('#departmentModal').modal("toggle");
+                        getAllDep();
                         $('#editDepartment')[0].reset();
-                        $('#editDepartment input').attr("value", "");
                     }
                 });
             }     
@@ -801,9 +973,10 @@ $('#insertLocation').submit(function (e) {
                     url: window.location.href + 'libs/php/insert/insertLocation.php',
                     data: $('#insertLocation').serialize(),
                     success: function (result) {
-                    
-                    getAllLocations();
-                    $('#insertLocation')[0].reset();
+
+                        $('#locationModal').modal("toggle");
+                        getAllLoc();
+                        $('#insertLocation')[0].reset();
                     }
                 });
         
@@ -917,9 +1090,9 @@ $('#editLocation').submit(function (e) {
                     data: $('#editLocation').serialize(),
                     success: function (result) {
                   
-                    getAllLocations();
-                    $('#editLocation')[0].reset();
-                    $('#editLocation input').attr("value", "");
+                         $('#locationModal').modal("toggle");
+                        getAllLoc();
+                        $('#editLocation')[0].reset();
                     }
                 });
             }
@@ -1269,9 +1442,9 @@ function getAllStaff() {
             <td><i class="my-auto bi bi-person-workspace"></i><div class='d-inline-flex w-75 overflow-hidden'>${person.department}</div></td>
             <td><i class="my-auto bi bi-building-fill"></i><div class='d-inline-flex w-75'>${person.location}</div></td>
             <td><i class="d-none d-md-inline ms-auto my-auto bi bi-envelope-at"></i><div class='d-none d-md-inline-flex filterSearch'>${person.email}</div><button type="button" class="btn btn-outline-info btn-sm d-sm-block d-md-none mx-auto copyBtn">Copy</button></td>
-            <td><div class="d-flex"><button type="button" class="btn btn-outline-info updatePer  mx-auto" data-bs-toggle="modal" data-bs-target="#updatePerson"><i class="bi bi-pencil"></i></button>
+            <td><div class="d-flex"><button type="button" class="btn btn-outline-info updatePer  mx-auto" data-id=${person.id} data-bs-toggle="modal" data-bs-target="#updatePerson"><i class="bi bi-pencil"></i></button>
             <button type="button" class="btn btn-outline-danger deletePerson mx-auto"><i class="bi bi-x-circle"></i></button>
-            <input class="d-none perIdVal" type="number" value=${person.id} /><input class="d-none perIdDep" type="number" value=${person.departmentId} /></div></td></tr>`);
+            <input class="d-none perIdVal" type="number" value=${person.id} /><input class="d-none perIdVal" type="hidden" name="uname" value="${person.firstName + " " + person.lastName}" /><input class="d-none perIdDep" type="number" value=${person.departmentId} /></div></td></tr>`);
         });
 
         $('#tableBody').append("<tr class='hideDataRow d-none'><td class='text-center' colspan=5>No Results</td></tr>");
@@ -1301,7 +1474,7 @@ function getAllDep() {
              
             <td><div class="d-flex"><button type="button" class="btn btn-outline-info updatedep  mx-auto" data-bs-toggle="modal" data-bs-target="#updatedep"><i class="bi bi-pencil"></i></button>
             <button type="button" class="btn btn-outline-danger deletedep mx-auto"><i class="bi bi-x-circle"></i></button>
-            <input class="d-none perIdVal" type="number" value=${dep.departmentId} /><input class="d-none perIdDep" type="number" value=${dep.locationID} /></div></td></tr>`);
+            <input class="d-none perIdVal" type="number" value=${dep.departmentId} /><input class="d-none perIdVal" type="hidden" name="name" value="${dep.department}" /><input class="d-none perIdDep" type="number" value=${dep.locationID} /></div></td></tr>`);
         });
 
         $('#tableBodydep').append("<tr class='hideDataRow d-none'><td class='text-center' colspan=5>No Results</td></tr>");
@@ -1334,7 +1507,7 @@ function getAllLoc() {
              
             <td><div class="d-flex"><button type="button" class="btn btn-outline-info updateloc  mx-auto" data-bs-toggle="modal" data-bs-target="#updateloc"><i class="bi bi-pencil"></i></button>
             <button type="button" class="btn btn-outline-danger deleteloc mx-auto"><i class="bi bi-x-circle"></i></button>
-            <input class="d-none perIdVal" type="number" value=${dep.id} /><input class="d-none perIdDep" type="number" value=${dep.id} /></div></td></tr>`);
+            <input class="d-none perIdVal" type="number" value=${dep.id} /><input class="d-none perIdVal" type="hidden" value=${dep.name} /><input class="d-none perIdDep" type="number" value=${dep.id} /></div></td></tr>`);
         });
 
         $('#tableBodyloc').append("<tr class='hideDataRow d-none'><td class='text-center' colspan=5>No Results</td></tr>");

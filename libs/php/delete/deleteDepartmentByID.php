@@ -66,11 +66,19 @@
 
 	if (count($data) !== 0) {
 
+		$query1 = ' select *from personnel WHERE locationID = ' . $_POST['id'] . '';
+
+
+		$result1 = $conn->query($query);
+		$row = mysqli_fetch_all($result1);
+		$total = count($row);
+
 
 		$output['status']['code'] = "400";
 		$output['status']['name'] = "executed";
 		$output['status']['description'] = "query failed  to condition";	
 		$output['data'] = [];
+		$output['status']['count'] = $total;
 
 		mysqli_close($conn);
 
@@ -78,37 +86,41 @@
 
 		exit;
 
-	}
+	}else{
 
-	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
+	// 	$query = 'DELETE FROM department WHERE id = ' . $_POST['id'];
 
-	$query = 'DELETE FROM department WHERE id = ' . $_POST['id'];
-
-	$result = $conn->query($query);
+	// $result = $conn->query($query);
 	
-	if (!$result) {
+	// if (!$result) {
 
-		$output['status']['code'] = "400";
-		$output['status']['name'] = "executed";
-		$output['status']['description'] = "query failed";	
-		$output['data'] = [];
+	// 	$output['status']['code'] = "400";
+	// 	$output['status']['name'] = "executed";
+	// 	$output['status']['description'] = "query failed";	
+	// 	$output['data'] = [];
 
-		mysqli_close($conn);
+	// 	mysqli_close($conn);
 
-		echo json_encode($output); 
+	// 	echo json_encode($output); 
 
-		exit;
+	// 	exit;
 
-	}
+	// }
 
 	$output['status']['code'] = "200";
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
 	$output['data'] = [];
+		$output['test3'] = [];
 	
 	mysqli_close($conn);
 
 	echo json_encode($output); 
+	}
+
+	 
+
+	
 
 ?>
