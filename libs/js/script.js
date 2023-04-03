@@ -914,7 +914,7 @@ $('#deleteDepartment').submit(function (e) {
 
 //update department
 
-$('#editDepartment select.deparments').change(function() {
+$('#editDepartment select.departments1').change(function() {
 
     $.ajax({
         type: 'post',
@@ -927,7 +927,7 @@ $('#editDepartment select.deparments').change(function() {
         }
     });
 
-    var location = $( "#editDepartment select.deparments option:selected" ).text();
+    var location = $( "#editDepartment select.departments1 option:selected" ).text();
     $('#editDepartment input').attr("value", location);
 
 });
@@ -1558,12 +1558,12 @@ function getAllLoc() {
 
 function getAllDepartments() {
 
-    $('.deparments').text("");
-    $('.deparments').append(`<option value="getAll" selected>All Departments</option>`);
+    $('.departments1').text("");
+    $('.departments1').append(`<option value="getAll" selected>All Departments</option>`);
     $.get("libs//php/get/getAllDepartments.php",  function(result) {
 
         result.data.forEach(dep => {
-            $('.deparments').append(`<option value=${dep.id}>${dep.name}</option>`);
+            $('.departments1').append(`<option value=${dep.id}>${dep.name}</option>`);
         });
 
     });
