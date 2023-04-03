@@ -255,18 +255,49 @@ $(document).on("click",".updatePer", function(){
     // alert('testing');
     
     var perDepId = $(this).next().next().next().val();
-    // alert(perDepId);
-
+    var perid = $(this).next().next().val();
     globalThis.personIdtoUpdate = $(this).next().next().val();
-    globalThis.person = $(this).next().next().next().val();
-    
-    $('#editPerson select').val(perDepId).trigger('change');
+    globalThis.person = $(this).next().next().next().next().val();
+    // alert(perid);
 
-    var fullName = $($(this).closest("tr").find("td")[0]).children("div").text().split(/(?=[A-Z])/);
+        $.ajax({
+            type: 'post',
+            url: window.location.href + 'libs/php/get/getPersonbyid.php',
+            data: {perid:perid},
+            success: function (result) {
+                // var total = result.status.code;
+                 // var total = JSON.stringify(result);
+                 // alert(total);
+                 // alert(result.status.email);
+                    // globalThis.personIdtoUpdate = $(this).next().next().val();
+                    // globalThis.person = $(this).next().next().next().next().val();
+
+                    // $('#editPerson select').val(perDepId).trigger('change');
+
+                    // var fullName = $($(this).closest("tr").find("td")[0]).children("div").text().split(/(?=[A-Z])/);
+                    
+
+
+                    $('#editPerson select').val(perDepId).trigger('change');
+                    $('#editPerson input[name="firstName"]').attr("value", result.status.firstName);
+                    $('#editPerson input[name="lastName"]').attr("value", result.status.lastName);
+                    $('#editPerson input[name="email"]').attr("value",result.status.email);
+                // $('#updatePerson').modal("toggle");
+                // getAllStaff();
+                // $('#addPerson')[0].reset();
+            }
+        });
+
+    // globalThis.personIdtoUpdate = $(this).next().next().val();
+    // globalThis.person = $(this).next().next().next().next().val();
     
-    $('#editPerson input[name="firstName"]').attr("value", fullName[0]);
-    $('#editPerson input[name="lastName"]').attr("value", fullName[1]);
-    $('#editPerson input[name="email"]').attr("value", $($(this).closest("tr").find("td")[3]).children("div").text());
+    // $('#editPerson select').val(perDepId).trigger('change');
+
+    // var fullName = $($(this).closest("tr").find("td")[0]).children("div").text().split(/(?=[A-Z])/);
+    
+    // $('#editPerson input[name="firstName"]').attr("value", fullName[0]);
+    // $('#editPerson input[name="lastName"]').attr("value", fullName[1]);
+    // $('#editPerson input[name="email"]').attr("value", $($(this).closest("tr").find("td")[3]).children("div").text());
     
 });
 
@@ -310,7 +341,7 @@ $(document).on("click",".deletePerson", function (e) {
     e.preventDefault();
 
     var personIdtoDelete = $(this).next().val();
-    var uname = $(this).next().next().val();
+    var uname = $(this).next().next().next().val();
     // alert(uname);
 
     bootbox.confirm({
@@ -638,12 +669,11 @@ $('#editPerson').submit(function (e) {
     e.preventDefault();
     
 //     var uname = $(this).next().val();
-//     alert(person
-// );  
+    // alert(person );  
 
     bootbox.confirm({
         title: "Action Required",
-        message: "<strong>Do you want to update "+ person +" details?</strong>",
+        message: "Do you want to update <strong>"+ person +"</strong> details?</strong>",
         buttons: {
             confirm: {
                 label: 'Yes',
@@ -884,7 +914,7 @@ $('#deleteDepartment').submit(function (e) {
 
 //update department
 
-$('#editDepartment select.departments').change(function() {
+$('#editDepartment select.deparments').change(function() {
 
     $.ajax({
         type: 'post',
@@ -897,7 +927,7 @@ $('#editDepartment select.departments').change(function() {
         }
     });
 
-    var location = $( "#editDepartment select.departments option:selected" ).text();
+    var location = $( "#editDepartment select.deparments option:selected" ).text();
     $('#editDepartment input').attr("value", location);
 
 });
@@ -1444,7 +1474,7 @@ function getAllStaff() {
             <td><i class="d-none d-md-inline ms-auto my-auto bi bi-envelope-at"></i><div class='d-none d-md-inline-flex filterSearch'>${person.email}</div><button type="button" class="btn btn-outline-info btn-sm d-sm-block d-md-none mx-auto copyBtn">Copy</button></td>
             <td><div class="d-flex"><button type="button" class="btn btn-outline-info updatePer  mx-auto" data-id=${person.id} data-bs-toggle="modal" data-bs-target="#updatePerson"><i class="bi bi-pencil"></i></button>
             <button type="button" class="btn btn-outline-danger deletePerson mx-auto"><i class="bi bi-x-circle"></i></button>
-            <input class="d-none perIdVal" type="number" value=${person.id} /><input class="d-none perIdVal" type="hidden" name="uname" value="${person.firstName + " " + person.lastName}" /><input class="d-none perIdDep" type="number" value=${person.departmentId} /></div></td></tr>`);
+            <input class="d-none perIdVal" type="number" value=${person.id} /><input class="d-none perIdDep" type="number" value=${person.departmentId} /><input class="" type="hidden" name="uname" value="${person.firstName + " " + person.lastName}" /></div></td></tr>`);
         });
 
         $('#tableBody').append("<tr class='hideDataRow d-none'><td class='text-center' colspan=5>No Results</td></tr>");
@@ -1474,7 +1504,7 @@ function getAllDep() {
              
             <td><div class="d-flex"><button type="button" class="btn btn-outline-info updatedep  mx-auto" data-bs-toggle="modal" data-bs-target="#updatedep"><i class="bi bi-pencil"></i></button>
             <button type="button" class="btn btn-outline-danger deletedep mx-auto"><i class="bi bi-x-circle"></i></button>
-            <input class="d-none perIdVal" type="number" value=${dep.departmentId} /><input class="d-none perIdVal" type="hidden" name="name" value="${dep.department}" /><input class="d-none perIdDep" type="number" value=${dep.locationID} /></div></td></tr>`);
+            <input class="d-none perIdVal" type="number" value=${dep.departmentId} /><input class="d-none perIdDep" type="number" value=${dep.locationID} /><input class="" type="hidden" name="name" value="${dep.department}" /></div></td></tr>`);
         });
 
         $('#tableBodydep').append("<tr class='hideDataRow d-none'><td class='text-center' colspan=5>No Results</td></tr>");
@@ -1528,12 +1558,12 @@ function getAllLoc() {
 
 function getAllDepartments() {
 
-    $('.departments').text("");
-    $('.departments').append(`<option value="getAll" selected>All Departments</option>`);
+    $('.deparments').text("");
+    $('.deparments').append(`<option value="getAll" selected>All Departments</option>`);
     $.get("libs//php/get/getAllDepartments.php",  function(result) {
 
         result.data.forEach(dep => {
-            $('.departments').append(`<option value=${dep.id}>${dep.name}</option>`);
+            $('.deparments').append(`<option value=${dep.id}>${dep.name}</option>`);
         });
 
     });
